@@ -1,3 +1,4 @@
+-- Active: 1717116899462@@127.0.0.1@3306@bdcarritocompras
 -- phpMyAdmin SQL Dump
 -- version 4.8.2
 -- https://www.phpmyadmin.net/
@@ -210,7 +211,7 @@ CREATE TABLE `rol` (
 -- Volcado de datos para la tabla `rol`
 --
 
-INSERT INTO `rol` (`idrol`, `roldescripcion`) VALUES
+INSERT INTO `rol` (`idrol`, `rodescripcion`) VALUES
 (1, 'Administrador'),
 (2, 'Depósito'),
 (3, 'Cliente');
@@ -318,7 +319,7 @@ ALTER TABLE `menurol`
 -- Indices de la tabla `producto`
 --
 ALTER TABLE `producto`
-  ADD PRIMARY KEY (`idproducto`),
+  ADD PRIMARY KEY (`idproducto`);
 
 --
 -- Indices de la tabla `rol`

@@ -11,6 +11,8 @@ $PROYECTO ='TPFINAL';
 $ROOT =$_SERVER['DOCUMENT_ROOT']."/$PROYECTO/";
 
 include_once($ROOT.'Util/funciones.php');
+include_once($ROOT."Modelo/Conector/BaseDatos.php");
+include_once($ROOT."Modelo/Producto.php");
 
 $GLOBALS['ROOT']=$ROOT;
 

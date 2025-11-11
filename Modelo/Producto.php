@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . "/Conector/BaseDatos.php";
 class Producto extends BaseDatos{
     private $id;
     private $nombre;
