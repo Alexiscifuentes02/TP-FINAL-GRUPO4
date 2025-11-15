@@ -176,27 +176,43 @@ class Usuario extends BaseDatos{
      * @return boolean true si se concretó, false caso contrario
      */
     public function modificar(){
-        $seConcreto = false;
-        $pass = "";
+    $seConcreto = false;
 
-        
-        if($this->getPass() != NULL && $this->getPass() != "" && $this->getPass() != "null"){
-            $pass  = "uspass = '" . $this->getPass() . "',";
-        }
-        
-
-        $consulta = "UPDATE usuario SET usnombre = '" . $this->getNombre() . "',". $pass. "
-        usmail = '" . $this->getMail() . "', usdeshabilitado = ". $this->getDeshabilitado() ." WHERE idusuario = '" . $this->getId(). "'";
-
-
-        if($this->Iniciar()){
-            if($this->Ejecutar($consulta)){
-                $seConcreto = true;
-            }else{$this->setMensajeOperacion("usuario->modificar: ".$this->getError());}
-        }else{$this->setMensajeOperacion("usuario->modificar: ".$this->getError());}
-
-        return $seConcreto;
+    // Manejo de contraseña opcional
+    $pass = "";
+    if ($this->getPass() != null && $this->getPass() != "" && $this->getPass() != "null") {
+        $pass = "uspass = '" . $this->getPass() . "',";
     }
+
+    // Manejo de deshabilitado NULL o con valor
+    $desh = $this->getDeshabilitado();
+    if ($desh === null || $desh === "" || $desh === "0000-00-00 00:00:00") {
+        $deshSQL = "NULL";
+    } else {
+        $deshSQL = "'" . $desh . "'";
+    }
+
+    $consulta = "UPDATE usuario SET 
+                    usnombre = '" . $this->getNombre() . "', 
+                    $pass
+                    usmail = '" . $this->getMail() . "', 
+                    usdeshabilitado = $deshSQL
+                 WHERE idusuario = '" . $this->getId() . "'";
+
+    if ($this->Iniciar()) {
+        if ($this->Ejecutar($consulta)) {
+            $seConcreto = true;
+        } else {
+            $this->setMensajeOperacion("usuario->modificar: ".$this->getError());
+        }
+    } else {
+        $this->setMensajeOperacion("usuario->modificar: ".$this->getError());
+    }
+
+    return $seConcreto;
+}
+
+
 
     /**
      * Elimina el objeto actual de la base de datos

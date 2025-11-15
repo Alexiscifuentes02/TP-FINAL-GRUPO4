@@ -223,23 +223,24 @@ INSERT INTO `rol` (`idrol`, `rodescripcion`) VALUES
 --
 
 CREATE TABLE `usuario` (
-  `idusuario` bigint(20) NOT NULL,
+  `idusuario` bigint(20) NOT NULL AUTO_INCREMENT,
   `usnombre` varchar(50) NOT NULL,
-  `uspass` int(11) NOT NULL,
+  `uspass` varchar(255) NOT NULL,
   `usmail` varchar(50) NOT NULL,
-  `usdeshabilitado` timestamp NULL DEFAULT NULL
+  `usdeshabilitado` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`idusuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`idusuario`, `usnombre`, `uspass`, `usmail`, `usdeshabilitado`) VALUES
-(0, 'Lolo', '6ebe76c9fb411be97b3b0d48b791a7c9', 'holalolo@gmail.com', '0000-00-00 00:00:00'),
-(1, 'fortcliente', 'b881f5beb1135cc00a4bd5186a9225fa', 'fort@gmail.com', '0000-00-00 00:00:00'),
-(2, 'empleadodeposito', '58c583ac2d31e73486f26dccdf560cea', 'eldeldeposito@gmail.com', '0000-00-00 00:00:00'),
-(3, 'eladmin', '3f06664c98831fa9ef021349d486944c', 'admin@admin.com', '0000-00-00 00:00:00'),
-(4, 'alexis', 'cb3bae31bb1c443fbf3db8889055f2fe', 'alexis@hotmail.com', '0000-00-00 00:00:00');
+INSERT INTO `usuario` (`usnombre`, `uspass`, `usmail`, `usdeshabilitado`) VALUES
+('Lolo', '6ebe76c9fb411be97b3b0d48b791a7c9', 'holalolo@gmail.com', NULL),
+('fortcliente', 'b881f5beb1135cc00a4bd5186a9225fa', 'fort@gmail.com', NULL),
+('empleadodeposito', '58c583ac2d31e73486f26dccdf560cea', 'eldeldeposito@gmail.com', NULL),
+('eladmin', '3f06664c98831fa9ef021349d486944c', 'admin@admin.com', NULL),
+('alexis', 'cb3bae31bb1c443fbf3db8889055f2fe', 'alexis@hotmail.com', NULL);
 
 -- --------------------------------------------------------
 
@@ -381,3 +382,4 @@ ALTER TABLE `rol`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
