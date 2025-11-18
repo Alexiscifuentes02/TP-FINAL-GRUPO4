@@ -2,6 +2,7 @@
 include_once("../Configuracion.php");
 include_once($ROOT . "Control/AbmUsuario.php");
 
+
 $abm = new AbmUsuario();
 $lista = $abm->buscar([]); // obtenerUsuarios()
 ?>

@@ -1,4 +1,7 @@
 <?php
+include_once(__DIR__ . "/Conector/BaseDatos.php");
+include_once(__DIR__ . "/Rol.php");
+include_once(__DIR__ . "/Menu.php");
 class MenuRol extends BaseDatos{
     private $objRol;
     private $objMenu;

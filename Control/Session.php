@@ -1,4 +1,6 @@
 <?php
+include_once(__DIR__ . "/AbmUsuario.php");
+include_once(__DIR__ . "/../Modelo/MenuRol.php");
 class Session{
     /**
      * Clase constructor

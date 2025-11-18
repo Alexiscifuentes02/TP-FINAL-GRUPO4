@@ -3,6 +3,7 @@
 include_once("../configuracion.php");
 include_once($ROOT . "Modelo/Producto.php");
 
+
 // Creo objeto y traigo la lista de productos
 $objProducto = new Producto();
 $listaProductos = $objProducto->listar();
