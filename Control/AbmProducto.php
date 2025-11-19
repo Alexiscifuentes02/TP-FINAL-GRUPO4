@@ -122,6 +122,33 @@ class AbmProducto
 
         return $arreglo;
     }
+
+    public function cambiarStock($param)
+{
+    if (!isset($param['id']) || !isset($param['cantidad']) || !isset($param['operacion'])) {
+        return false;
+    }
+
+    $obj = new Producto();
+    if (!$obj->buscar($param['id'])) {
+        return false;
+    }
+
+    $stockActual = $obj->getCantStock();
+    $cantidad = (int)$param['cantidad'];
+
+    if ($param["operacion"] == "resta") {
+        $nuevoStock = $stockActual - $cantidad;
+        if ($nuevoStock < 0) $nuevoStock = 0;
+    } else {
+        $nuevoStock = $stockActual + $cantidad;
+    }
+
+    $obj->setCantStock($nuevoStock);
+
+    return $obj->modificar();
+}
+
 }
 ?>
 
