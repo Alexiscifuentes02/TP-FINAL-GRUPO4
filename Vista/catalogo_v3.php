@@ -45,9 +45,14 @@ require_once(__DIR__ . "/Action/sesion.php"); // incluye sesión y setea $usuari
       <form method="post" class="m-0">
         <button type="submit" name="cerrarSesion" class="btn btn-danger">Cerrar sesión</button>
       </form>
-    <?php else: ?>
-      <a class="btn btn-primary" href="login.php">Iniciar sesión</a>
-    <?php endif; ?>
+      <?php else: ?>
+    <div class="d-flex gap-2">
+        <a class="btn btn-primary" href="login.php">Iniciar sesión</a>
+        <a class="btn btn-success" href="registrar.php">Registrarse</a>
+    </div>
+<?php endif; ?>
+
+
   </div>
 </nav>
 

@@ -79,7 +79,7 @@ class AbmUsuario{
         if ($this->seteadosCamposClaves($param)){
             $elObjtTabla = $this->cargarObjetoConClave($param);
 
-            $elObjtTabla->setDeshabilitado("NOW()");
+            $elObjtTabla->setDeshabilitado(date("Y-m-d H:i:s"));
 
             if ($elObjtTabla!=null and $elObjtTabla->modificar()){
                 $resp = true;
