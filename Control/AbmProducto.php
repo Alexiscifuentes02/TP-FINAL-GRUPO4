@@ -1,47 +1,28 @@
 <?php
+require_once __DIR__ . '/../Modelo/Producto.php';
+
 class AbmProducto
 {
-    //Espera como parametro un arreglo asociativo donde las claves coinciden con los uspasss de las variables instancias del objeto
-
-    /**
-     * Espera como parametro un arreglo asociativo donde las claves coinciden con los nombres de las variables instancias del objeto
-     * @param array $param
-     * @return Producto|null
-     */
     private function cargarObjeto($param)
     {
         $obj = null;
 
-        if (array_key_exists('pronombre', $param) and array_key_exists('prodesarrollador', $param) and array_key_exists('proprecio', $param) and array_key_exists('prodescripcion', $param) and array_key_exists('prostock', $param) and array_key_exists('progenero', $param) and array_key_exists('plataforma', $param) and array_key_exists('prodeshabilitado', $param) and array_key_exists('proimg', $param)) {
+        if (array_key_exists('pronombre', $param) && array_key_exists('prodesarrollador', $param) && array_key_exists('proprecio', $param) && array_key_exists('prodescripcion', $param) && array_key_exists('prostock', $param) && array_key_exists('progenero', $param) && array_key_exists('plataforma', $param) && array_key_exists('prodeshabilitado', $param) && array_key_exists('proimg', $param)) {
             $obj = new Producto();
-
             $obj->cargar(null, $param["pronombre"], $param["prodesarrollador"], $param['proprecio'], $param["prodescripcion"],  $param["prostock"], $param['progenero'],$param['plataforma'], $param['prodeshabilitado'], $param['proimg']);
         }
         return $obj;
     }
 
-    /**
-     * Espera como parametro un arreglo asociativo donde las claves coinciden con los nombres de las variables instancias del objeto que son claves
-     * @param array $param
-     * @return Rol|null
-     */
     private function cargarObjetoConClave($param)
     {
         $obj = null;
-
         if (isset($param['id'])) {
             $obj = new Producto();
             $obj->buscar($param["id"]);
         }
         return $obj;
     }
-
-
-    /**
-     * Corrobora que dentro del arreglo asociativo estan seteados los campos claves
-     * @param array $param
-     * @return boolean
-     */
 
     private function seteadosCamposClaves($param)
     {
@@ -51,39 +32,33 @@ class AbmProducto
         return $resp;
     }
 
-    /**
-     * Permite dar de alta un objeto
-     * @param array $param
-     */
     public function alta($param)
     {
         $resp = array();
         $elObjtTabla = $this->cargarObjeto($param);
-
-
         if ($elObjtTabla != null and $elObjtTabla->insertar()) {
             $resp = array('resultado' => true, 'error' => '', 'obj' => $elObjtTabla);
         } else {
-            $resp = array('resultado' => false, 'error' => $elObjtTabla->getmensajeoperacion());
+            $resp = array('resultado' => false, 'error' => $elObjtTabla ? $elObjtTabla->getMensajeOperacion() : 'Error cargando objeto');
         }
-
         return $resp;
     }
 
-
-    /**
-     * Sube un archivo
-     * @param array $param
-     * @return boolean
-     */
     public function subirArchivo($param)
     {
-        $dir = "../../"; // EDITAR!!!   
+        $dir = __DIR__ . "/../Vista/files/images/productos/"; 
         $resp = false;
 
-        if ($param['imagen']['imagen']['error'] <= 0 && $param['imagen']['imagen']['type'] == "image/jpeg") {
-            if (copy($param['imagen']['imagen']['tmp_name'], $dir . md5($param["id"]) . ".jpg")) {
-                $resp = true;
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+
+        if (isset($param['imagen']) && isset($param['imagen']['error']) && $param['imagen']['error'] == 0) {
+            $tmp = $param['imagen']['tmp_name'];
+            $name = basename($param['imagen']['name']);
+            $target = $dir . time() . "_" . preg_replace('/[^a-zA-Z0-9._-]/','_', $name);
+            if (move_uploaded_file($tmp, $target)) {
+                $resp = str_replace(__DIR__ . "/../Vista/", "", $target); // ruta relativa para DB
             }
         }
 
@@ -93,26 +68,15 @@ class AbmProducto
     public function altaProducto($data)
     {
         $respuesta = false;
-
-        if (isset($data['nombre'])) {
-            if ($this->alta($data)){
+        if (isset($data['pronombre'])) {
+            $carga = $this->cargarObjeto($data);
+            if ($carga && $carga->insertar()){
                 $respuesta = true;
             }
-
         } 
-
-        if ($respuesta) {
-            $this->subirArchivo(["imagen" => $_FILES, "id" => $respuesta["obj"]->getId()]);
-        }
-
         return $respuesta;
     }
 
-    /**
-     * Permite eliminar un objeto
-     * @param array $param
-     * @return boolean
-     */
     public function baja($param)
     {
         $resp = false;
@@ -122,21 +86,16 @@ class AbmProducto
                 $resp = true;
             }
         }
-
         return $resp;
     }
 
-    /**
-     * Permite modificar un objeto
-     * @param array $param
-     * @return boolean
-     */
     public function modificacion($param)
     {
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
-            $elObjtTabla = $this->cargarObjeto($param);
-            $elObjtTabla->setId($param["id"]);
+            // cargamos con todos los campos
+            $elObjtTabla = new Producto();
+            $elObjtTabla->cargar($param['id'], $param['pronombre'], $param['prodesarrollador'], $param['proprecio'], $param['prodescripcion'], $param['prostock'], $param['progenero'], $param['plataforma'], isset($param['prodeshabilitado']) ? $param['prodeshabilitado'] : null, isset($param['proimg']) ? $param['proimg'] : "");
             if ($elObjtTabla != null and $elObjtTabla->modificar()) {
                 $resp = true;
             }
@@ -144,17 +103,11 @@ class AbmProducto
         return $resp;
     }
 
-    /**
-     * Permite buscar un objeto
-     * @param array $param
-     * @return array
-     */
     public function buscar($param)
     {
         $where = " true ";
-        $claves = ["idproducto" ?? "id", "pronombre", "prodesarrollador", "proprecio", "prodescripcion", "prostock", "progenero", "plataforma", "proimg"];
-        $db = ["idproducto", "pronombre", "prodesarrollador", "proprecio", "prodescripcion", "prostock", "progenero", "plataforma","prodeshabilitado", "proimg64"];
-
+        $claves = ["idproducto", "pronombre", "prodesarrollador", "proprecio", "prodescripcion", "prostock", "progenero", "plataforma", "proimg"];
+        $db = ["idproducto", "pronombre", "prodesarrollador", "proprecio", "prodescripcion", "prostock", "progenero", "plataforma", "proimg"];
 
         if ($param <> null) {
             for ($i = 0; $i < count($claves); $i++) {
@@ -169,66 +122,6 @@ class AbmProducto
 
         return $arreglo;
     }
-
-    /**
-     * Suma al stock
-     * @param array $param ["id" => 1, "cantidad" => "1", "operacion" => "suma"|"resta"]
-     * @return boolean
-     */
-    public function cambiarStock($param)
-    {
-        $resp = false;
-
-        if (isset($param["id"])) {
-            $resultado = $this->buscar(["idproducto" => $param["id"]]);
-        }
-
-        if (isset($resultado) && count($resultado) > 0 && isset($param["cantidad"]) && isset($param["operacion"])) {
-
-            $objProducto = $resultado[0];
-            switch ($param["operacion"]) {
-                case "suma":
-                    $objProducto->setCantStock($objProducto->getCantStock() + $param["cantidad"]);
-                    $resp = $objProducto->modificar();
-                    break;
-                case "resta":
-                    $objProducto->setCantStock($objProducto->getCantStock() - $param["cantidad"]);
-                    $resp = $objProducto->modificar();
-                    break;
-            }
-        }
-
-        return $resp;
-    }
-
-
-    public function listarProductosActivos(){
-        $param["deshabilitado"] = null;
-$list = $this->buscar($param);
-
-$arreglo_salida =  array();
-
-foreach ($list as $elem){
-    $nuevoElem['idproducto'] = $elem->getId();
-    $nuevoElem["pronombre"]=$elem->getNombre();
-    $nuevoElem["prodesarrollador"]=$elem->getDesarrollador();
-    $nuevoElem["proprecio"]=$elem->getPrecio();
-    $nuevoElem["prodescripcion"] = $elem->getDescripcion();
-    $nuevoElem["prostock"] = $elem->getCantStock();
-    $nuevoElem["progenero"] = $elem->getGenero();
-    $nuevoElem["plataforma"] = $elem->getPlataforma();
-    $nuevoElem["proimg"] = '<a href="../Vista/'. $elem->getImg() .'" class="btn btn-secondary">Ver</a>';
-    
-    $nuevoElem["accion"] =
-    '<button class="btn btn-warning" id="edit-' . $elem->getId() . '" onclick="editMenu();">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-        </svg>
-    </button>';
-    array_push($arreglo_salida,$nuevoElem);
 }
+?>
 
-return $arreglo_salida;
-    }
-}
