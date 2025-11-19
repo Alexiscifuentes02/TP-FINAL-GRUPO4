@@ -194,7 +194,7 @@ CREATE TABLE `producto` (
   `plataforma` varchar(30) NOT NULL, 
   `prodeshabilitado` timestamp(6) NULL DEFAULT NULL,
   `proimg` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -377,6 +377,14 @@ ALTER TABLE `menu`
 --
 ALTER TABLE `rol`
   MODIFY `idrol` bigint(20) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE producto 
+MODIFY proimg VARCHAR(50) DEFAULT '',
+MODIFY prodescripcion VARCHAR(1000) DEFAULT '',
+MODIFY prodesarrollador VARCHAR(100) DEFAULT '',
+MODIFY progenero VARCHAR(20) DEFAULT '',
+MODIFY plataforma VARCHAR(30) DEFAULT '',
+MODIFY idproducto INT(100) NOT NULL AUTO_INCREMENT;
 
 
 
