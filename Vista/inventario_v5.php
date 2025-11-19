@@ -13,32 +13,7 @@ $listaProductos = $objProducto->listar();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <style>
-        /* === (copié exactamente tu bloque de estilos original) === */
-        /* ESTILOS GENERALES */
-        .nav-link { padding-left: 10px; }
-        .navbar-brand img { height: 40px; margin-right: 10px; }
-        .dropdown-menu { min-width: 300px; padding: 20px; }
-        .dropdown-toggle::after { margin-left: 5px; }
-        .navbar { box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .form-control:focus { border-color: #0d6efd; box-shadow: 0 0 0 0.25rem rgba(13,110,253,0.25); }
-        .btn-primary { background-color: #0d6efd; border-color: #0d6efd; }
-        .table th { border-top: none; font-weight: 600; }
-        .img-thumbnail { cursor: pointer; transition: transform 0.2s; }
-        .img-thumbnail:hover { transform: scale(1.1); }
-        .stock-status { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.875rem; font-weight: 500; }
-        .stock-in { background-color: #d4edda; color: #155724; }
-        .stock-low { background-color: #fff3cd; color: #856404; }
-        .stock-out { background-color: #f8d7da; color: #721c24; }
-        .availability-toggle { display: flex; align-items: center; gap: 0.5rem; }
-        .availability-badge { padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.875rem; font-weight: 500; }
-        .available-badge { background-color: #d4edda; color: #155724; }
-        .unavailable-badge { background-color: #f8d7da; color: #721c24; }
-        .form-check-input:checked { background-color: #198754; border-color: #198754; }
-        .tags-container { min-width: 200px; }
-        .tags-container .badge { font-size: 0.75rem; padding: 0.25rem 0.5rem; margin: 0.1rem; }
-        .tag-remove-btn { cursor: pointer; margin-left: 0.25rem; font-size: 0.6rem; line-height: 1; }
-    </style>
+    <link rel="stylesheet" href="CSS/inventario.css">
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -60,7 +35,6 @@ $listaProductos = $objProducto->listar();
             <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                 Iniciar sesión
             </button>
-
             <div class="dropdown-menu dropdown-menu-end p-3">
                 <form>
                     <label class="form-label">Usuario</label>
@@ -142,7 +116,6 @@ $listaProductos = $objProducto->listar();
 
                     <td style="min-width:160px;">
                             <?php
-                                // Si querés usar etiquetas reales, guardalas en DB y parsealas. Por ahora mostramos género como etiqueta.
                                 $tags = array_filter(array_map('trim', explode(',', $producto->getGenero())));
                                 foreach ($tags as $t) {
                                     if ($t !== '') echo '<span class="badge bg-secondary me-1">' . htmlspecialchars($t) . '</span>';
@@ -183,7 +156,7 @@ $listaProductos = $objProducto->listar();
     </div>
 </div>
 
-<!-- Modales (copiados del original) -->
+<!-- Modales -->
 <div class="modal fade" id="imagePreviewModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -198,13 +171,6 @@ $listaProductos = $objProducto->listar();
     </div>
 </div>
 
-<script>
-function previewImage(imageUrl, title) {
-    document.getElementById('previewImage').src = imageUrl;
-    document.getElementById('imagePreviewTitle').textContent = title;
-}
-</script>
-
+<script src="js/inventario.js"></script>
 </body>
 </html>
-
