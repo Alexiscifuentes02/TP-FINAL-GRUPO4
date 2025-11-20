@@ -124,5 +124,9 @@ button:hover {
         </select>
 
         <button type="submit" name="registrar">Registrar Usuario</button>
+        <button onclick="window.location.href='catalogo_v3.php'">
+    Volver al catálogo
+</button>
+
     </form>
 </div>

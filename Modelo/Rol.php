@@ -70,7 +70,7 @@ class Rol extends BaseDatos{
                 if($fila = $this->Registro()){
                     $this->cargar(
                         $id,
-                        $fila["rodescripcion"]
+                        $fila["roldescripcion"]
                     );
 
                     $encontro = true;
@@ -99,7 +99,7 @@ class Rol extends BaseDatos{
                 $arreglo = [];
                 while($fila = $this->Registro()){
                     $objRol = new Rol();
-                    $objRol->cargar($fila["idrol"],$fila["rodescripcion"]);
+                    $objRol->cargar($fila["idrol"],$fila["roldescripcion"]);
                     array_push($arreglo, $objRol);
                 }
             }else{$this->setMensajeOperacion("rol->listar: ".$this->getError());}

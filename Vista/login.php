@@ -1,11 +1,17 @@
 <?php
 session_start();
 require_once __DIR__ . '/../vendor/autoload.php';
+
 use Gregwar\Captcha\CaptchaBuilder;
+use Gregwar\Captcha\PhraseBuilder;
+
+// Crear phrase builder con solo números y 5 dígitos
+$phraseBuilder = new PhraseBuilder(5, '0123456789');
 
 // Generar captcha
-$builder = new CaptchaBuilder;
+$builder = new CaptchaBuilder(null, $phraseBuilder);
 $builder->build();
+
 $_SESSION['captcha_phrase'] = $builder->getPhrase();
 ?>
 
