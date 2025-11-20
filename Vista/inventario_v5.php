@@ -153,6 +153,7 @@ $listaProductos = $objProducto->listar();
 
     <div class="mt-3 mb-5">
         <a href="inventario_crear.php" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Agregar Nuevo Juego</a>
+        <a href="catalogo_v3.php" class="btn btn-primary">></i> Volver al catalogo </a>
     </div>
 </div>
 

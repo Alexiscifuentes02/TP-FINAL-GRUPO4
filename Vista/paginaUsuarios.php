@@ -9,7 +9,7 @@ $lista = $abm->buscar([]); // obtenerUsuarios()
 
 <h2>Administración de Usuarios</h2>
 
-<a href="formUsuario.php">➕ Nuevo Usuario</a>
+<a href="registrar.php">Registrar Usuario</a>
 
 <table border="1" cellpadding="5">
     <tr>
@@ -39,3 +39,5 @@ $lista = $abm->buscar([]); // obtenerUsuarios()
     }
     ?>
 </table>
+<a href="catalogo_v3.php">Volver al catalogo</a>
+
