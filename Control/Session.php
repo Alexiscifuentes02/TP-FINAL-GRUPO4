@@ -15,26 +15,27 @@ class Session{
         return $resp;
     }
 
-    /**
-     * Actualiza las variables de sesión con los valores ingresados
-     * @param string $nombreUsuario
-     * @param string $psw
-     * @return array
-     */
     public function iniciar($nombreUsuario, $psw){
         $resp = false;
-
-        $where = ["nombre" => $nombreUsuario, "pass" => $psw, "deshabilitado" => "0000-00-00 00:00:00"];
+    
+        // Campos reales de la tabla usuario
+        $where = [
+            "usnombre" => $nombreUsuario,
+            "uspass" => md5($psw),
+            "usdeshabilitado" => null
+        ];        
+    
         $abmUsuario = new AbmUsuario();
         $arreglo = $abmUsuario->buscar($where);
-
-        if(!is_null($arreglo)){
+    
+        if (!empty($arreglo)) {
             $_SESSION["idusuario"] = $arreglo[0]->getId();
             $resp = true;
         }
-
+    
         return $resp;
     }
+    
 
     /**
      * Valida si la sesión actual tiene usuario y psw válidos. Devuelve true o false

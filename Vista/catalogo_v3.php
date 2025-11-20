@@ -47,6 +47,7 @@ require_once(__DIR__ . "/Action/sesion.php"); // incluye sesión y setea $usuari
       </form>
       <?php else: ?>
     <div class="d-flex gap-2">
+    <a class="btn btn-warning me-3" href="carrito.php">Carrito</a>
         <a class="btn btn-primary" href="login.php">Iniciar sesión</a>
         <a class="btn btn-success" href="registrar.php">Registrarse</a>
     </div>
