@@ -101,13 +101,44 @@ function initCatalog() {
 
 function addToCart(itemId) {
     const item = catalogItems.find(i => i.id == itemId);
+
     if (item && item.stock.quantity > 0) {
+
         item.stock.quantity--;
         initCatalog();
-        alert(`¡${item.title} agregado al carrito!`);
+
+        // HTML del PDF
+        const htmlPDF = `
+            <h1>Gracias por su compra</h1>
+            <p>Producto: <strong>${item.title}</strong></p>
+            <p>Precio: <strong>$${item.price}</strong></p>
+        `;
+
+        // Crear formulario dinámico
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '../Control/generar_pdf.php';
+        form.target = '_blank'; // Abrir en nueva pestaña
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'html';
+        input.value = htmlPDF;
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+        form.remove();
+
+        alert(`¡${item.title} fue comprado con exito!`);
+
     } else {
         alert(`Lo sentimos, ${item.title} ya no está disponible.`);
     }
 }
+
+
+
+
 
 document.addEventListener("DOMContentLoaded", fetchProductos);
