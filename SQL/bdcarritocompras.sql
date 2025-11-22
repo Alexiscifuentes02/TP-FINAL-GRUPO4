@@ -68,7 +68,7 @@ CREATE TABLE `compraestadotipo` (
 CREATE TABLE `compra` (
   `idcompra` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
   `cofecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `idusuario` bigint UNSIGNED NOT NULL,
+  `idusuario` bigint NOT NULL,
   PRIMARY KEY(`idcompra`),
   FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`idusuario`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -89,9 +89,9 @@ CREATE TABLE `compraestado` (
 
 -- Estructura de tabla para la tabla `compraitem`
 CREATE TABLE `compraitem` (
-  `idcompraitem` bigint(20) UNSIGNED NOT NULL,
-  `idproducto` bigint(20) NOT NULL,
-  `idcompra` bigint(20) NOT NULL,
+  `idcompraitem` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `idproducto` int(20) NOT NULL,
+  `idcompra` bigint UNSIGNED NOT NULL,
   `cicantidad` int(11) NOT NULL,
   PRIMARY KEY (`idcompraitem`),
   FOREIGN KEY (`idcompra`) REFERENCES `compra` (`idcompra`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -133,14 +133,14 @@ CREATE TABLE `usuariorol` (
 
 -- Volcado de datos para la tabla `menu`
 INSERT INTO `menu` (`idmenu`, `menombre`, `medescripcion`, `idpadre`, `medeshabilitado`) VALUES
-(1, 'Administrador', '#', '#', NULL),
-(2, 'Deposito', '#', '#', NULL),
-(3, 'Cliente', '#', '#', NULL),
-(4, 'Administrar Usuarios', 'AdministrarUsuarios', '////', 1),
-(5, 'Administrar Productos', 'AdministrarProductos', '////', 2),
-(6, 'Administrar Compras', 'AdministrarCompras', '////', 2),
-(7, 'Carrito', 'Carrito', '////', 3),
-(8, 'Mis Compras', 'MisCompras', '////', 3);
+(1, 'Administrador', '#', NULL , NULL),
+(2, 'Deposito', '#', NULL, NULL),
+(3, 'Cliente', '#', NULL, NULL),
+(4, 'Administrar Usuarios', 'AdministrarUsuarios', 1, NULL),
+(5, 'Administrar Productos', 'AdministrarProductos', 2, NULL),
+(6, 'Administrar Compras', 'AdministrarCompras', 2, NULL),
+(7, 'Carrito', 'Carrito', 3, NULL),
+(8, 'Mis Compras', 'MisCompras', 3, NULL);
 -- --------------------------------------------------------
 
 -- Volcado de datos para la tabla `usuario`
