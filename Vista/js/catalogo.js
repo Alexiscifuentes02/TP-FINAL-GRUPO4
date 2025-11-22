@@ -1,3 +1,5 @@
+
+
 const stockConfig = {
     in: { text: "En stock", class: "stock-in" },
     low: { text: "Stock bajo", class: "stock-low" },
@@ -106,29 +108,7 @@ function addToCart(itemId) {
 
         item.stock.quantity--;
         initCatalog();
-
-        // HTML del PDF
-        const htmlPDF = `
-            <h1>Gracias por su compra</h1>
-            <p>Producto: <strong>${item.title}</strong></p>
-            <p>Precio: <strong>$${item.price}</strong></p>
-        `;
-
-        // Crear formulario dinámico
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '../Control/generar_pdf.php';
-        form.target = '_blank'; // Abrir en nueva pestaña
-
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'html';
-        input.value = htmlPDF;
-
-        form.appendChild(input);
-        document.body.appendChild(form);
-        form.submit();
-        form.remove();
+        document.cookie = `idproducto=${itemId}; path=/;`;        
 
         alert(`¡${item.title} fue comprado con exito!`);
 

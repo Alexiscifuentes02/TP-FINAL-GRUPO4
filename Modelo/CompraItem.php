@@ -1,4 +1,10 @@
 <?php
+include_once(__DIR__ . "/Conector/BaseDatos.php");
+include_once(__DIR__ . "/Producto.php");
+include_once(__DIR__ . "/Usuario.php");
+include_once(__DIR__ . "/CompraEstado.php");
+include_once(__DIR__ . "/CompraEstadoTipo.php");
+include_once(__DIR__ . "/Compra.php");
 class CompraItem extends BaseDatos{
     private $id;
     private $objProducto;

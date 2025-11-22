@@ -7,7 +7,9 @@ require_once($ROOT . "Control/Session.php");
 require_once($ROOT . "Control/AbmUsuario.php");
 
 // Inicializa sesión
-$sesion = new Session();
+if (session_status() === PHP_SESSION_NONE) {
+    $sesion = new Session();
+}
 
 $usuario = null;
 $mostrarAdmin = false;

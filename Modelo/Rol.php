@@ -70,7 +70,7 @@ class Rol extends BaseDatos{
                 if($fila = $this->Registro()){
                     $this->cargar(
                         $id,
-                        $fila["roldescripcion"]
+                        $fila["rodescripcion"]
                     );
 
                     $encontro = true;
@@ -99,7 +99,7 @@ class Rol extends BaseDatos{
                 $arreglo = [];
                 while($fila = $this->Registro()){
                     $objRol = new Rol();
-                    $objRol->cargar($fila["idrol"],$fila["roldescripcion"]);
+                    $objRol->cargar($fila["idrol"],$fila["rodescripcion"]);
                     array_push($arreglo, $objRol);
                 }
             }else{$this->setMensajeOperacion("rol->listar: ".$this->getError());}
@@ -116,7 +116,7 @@ class Rol extends BaseDatos{
         $resp = null;
         $resultado = false;
 
-        $consulta = "INSERT INTO rol(roldescripcion)
+        $consulta = "INSERT INTO rol(rodescripcion)
         VALUES ('". $this->getRolDescripcion()."');";
 
         if($this->Iniciar()){
@@ -137,7 +137,7 @@ class Rol extends BaseDatos{
     public function modificar(){
         $seConcreto = false;
 
-        $consulta = "UPDATE rol SET roldescripcion = '" . $this->getRolDescripcion() . "' WHERE idrol = '" . $this->getId(). "'";
+        $consulta = "UPDATE rol SET rodescripcion = '" . $this->getRolDescripcion() . "' WHERE idrol = '" . $this->getId(). "'";
 
         if($this->Iniciar()){
             if($this->Ejecutar($consulta)){

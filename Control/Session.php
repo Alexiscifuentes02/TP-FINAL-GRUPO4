@@ -6,12 +6,19 @@ class Session{
      * Clase constructor
      * @return boolean
      */
-    public function __construct()
+public function __construct()
     {
         $resp = false;
-        if(session_start()){
-            $resp = true;
+        // Agrega esta verificación:
+        if (session_status() === PHP_SESSION_NONE) {
+            if(session_start()){
+                $resp = true;
+            }
+        } else {
+            // Si ya está activa, considéralo exitoso.
+            $resp = true; 
         }
+        
         return $resp;
     }
 
@@ -20,8 +27,8 @@ class Session{
     
         // Campos reales de la tabla usuario
         $where = [
-            "usnombre" => $nombreUsuario,
-            "uspass" => md5($psw),
+            "nombre" => $nombreUsuario,
+            "pass" => md5($psw),
             "usdeshabilitado" => null
         ];        
     

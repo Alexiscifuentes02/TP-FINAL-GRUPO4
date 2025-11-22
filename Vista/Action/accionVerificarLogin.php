@@ -1,6 +1,9 @@
 <?php
+
 // Inicia la sesión para poder usar $_SESSION
-session_start();
+    if(session_status() === PHP_SESSION_NONE){
+        session_start();
+    }
 
 // Recupera los datos enviados por POST. Si no vienen, asigna cadena vacía
 $user = $_POST['user'] ?? '';
@@ -35,6 +38,9 @@ $sesion = new Session();
 if ($sesion->iniciar($user, $psw)) {
     // Si inicia correctamente, obtiene el objeto usuario
     $usuario = $sesion->getUsuario();
+    var_dump($usuario->getId(), $usuario->getNombre());
+    // exit;
+
 
     // Crea instancia de AbmUsuario para buscar roles del usuario
     $abmUsuario = new AbmUsuario();

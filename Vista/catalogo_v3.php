@@ -1,8 +1,44 @@
 <?php
 // Vista/catalogo_v3.php
 
-require_once(__DIR__ . "/Action/sesion.php"); // incluye sesión y setea $usuario, $mostrarAdmin, $mostrarDeposito
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// 2. Define que rol tiene el usuario
+$esAdministrador = false;
+$esDeposito = false;
+
+if (isset($_SESSION['usuario']['roles'])) {
+    $rolesUsuario = $_SESSION['usuario']['roles'];
+    
+    // Comprueba si el rol 'administrador' está en la lista
+    if (in_array('Administrador', $rolesUsuario)) {
+        $esAdministrador = true;
+    }
+
+    // Comprueba si el rol 'deposito' está en la lista
+    if (in_array('Depósito', $rolesUsuario)) {
+        $esDeposito = true;
+    }
+}
+
+setcookie("idusuario", 3, 0, "/");
+setcookie("idproducto", "a", 0, "/");
+
+
+if (isset($_SESSION['usuario'])) {
+    $usuario = $_SESSION['usuario'];
+    echo "ID: " . $usuario['id'] . "<br>";
+    echo "Nombre: " . $usuario['nombre'] . "<br>";
+    echo "Roles: " . implode(", ", $usuario['roles']);
+} else {
+    echo "No hay usuario logueado";
+}
+
 ?>
+
 
 <!doctype html>
 <html lang="es">
@@ -23,12 +59,12 @@ require_once(__DIR__ . "/Action/sesion.php"); // incluye sesión y setea $usuari
     <li class="nav-item me-3">
       <a class="nav-link" href="#">Contacto</a>
     </li>
-    <?php if ($mostrarDeposito): ?>
+    <?php if ($esDeposito): ?>
     <li class="nav-item me-3">
       <a class="nav-link btn btn-outline-warning text-white" href="inventario_v5.php">Depósito</a>
     </li>
     <?php endif; ?>
-    <?php if ($mostrarAdmin): ?>
+    <?php if ($esAdministrador): ?>
     <li class="nav-item me-3">
       <a class="nav-link btn btn-outline-info text-white" href="paginaUsuarios.php">Administrar usuarios</a>
     </li>
@@ -40,18 +76,20 @@ require_once(__DIR__ . "/Action/sesion.php"); // incluye sesión y setea $usuari
       <input class="form-control me-2" type="search" placeholder="Búsqueda">
       <button class="btn btn-outline-success" type="submit">Buscar</button>
     </form>
-
-    <?php if ($usuario): ?>
-      <form method="post" class="m-0">
-        <button type="submit" name="cerrarSesion" class="btn btn-danger">Cerrar sesión</button>
-      </form>
-      <?php else: ?>
+        <a class="btn btn-warning me-3" href="carrito.php">Carrito</a>
+<?php if (isset($_SESSION["idusuario"])): ?>
+<form method="post" action="Action/cerrarSession.php" class="m-0">
+    <button type="submit" name="cerrarSesion" class="btn btn-danger">Cerrar sesión</button>
+</form>
+    <?php endif; ?>
     <div class="d-flex gap-2">
-    <a class="btn btn-warning me-3" href="carrito.php">Carrito</a>
+    <?php if (!isset($_SESSION["idusuario"])): ?>
         <a class="btn btn-primary" href="login.php">Iniciar sesión</a>
+    <?php endif; ?>
+    <?php if (!isset($_SESSION["idusuario"])): ?>
         <a class="btn btn-success" href="registrar.php">Registrarse</a>
     </div>
-<?php endif; ?>
+    <?php endif; ?>
 
 
   </div>
